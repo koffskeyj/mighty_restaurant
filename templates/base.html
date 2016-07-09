@@ -1,0 +1,75 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Food Thing</title>
+    <link rel="stylesheet" href='{% static "app/css/bootstrap.css" %}' media="screen" title="bootstrap" charset="utf-8">
+    <link rel="stylesheet" href='{% static "app/css/app.css" %}' media="screen" charset="utf-8">
+  </head>
+  <body>
+    {% if request.user.is_anonymous %}
+    <nav class="navbar navbar-default">
+          <a class="navbar-brand" href="#">Food™</a>
+    <ul class="nav navbar-nav">
+      <li><a href=" {% url 'user_create_view' %}" role="button">Create User</a> </li>
+      <li><a href="{% url 'login' %}" role="button">Login</a></li>
+    </ul>
+  </nav>
+    {% endif %}
+    {% if request.user.is_authenticated %}
+      {% if request.user.profile.user_type == "Owner" %}
+      <nav class="navbar navbar-default">
+            <a class="navbar-brand" href="#">Food™ ⟼</a>
+            <a class="navbar-brand" href="#">{{ request.user }},</a>
+            <a class="navbar-brand" href="#">{{ request.user.profile.user_type }}</a>
+      <ul class="nav navbar-nav">
+        <li><a href="{% url 'menu_item_create_view' %}" role="button">Create Menu Item</a></li>
+        <li><a href="{% url 'menu_item_list_view' %}" role="button">View Menu Items</a></li>
+        <li><a href=" {% url 'user_create_view' %}" role="button">Create User</a> </li>
+        <li><a href="{% url 'order_list_view' %}" role="button">View Orders</a></li>
+        <li><a href="{% url 'profile_update_view' %}" role="button">Profile</a></li>
+        <li><a href="{% url 'logout' %}?next=/" role="button">Logout</a></li>
+        <img src="http://3.bp.blogspot.com/-2zNc1kJJ670/UgNueN0tN0I/AAAAAAAANrs/jvZ1KFAVNmc/s1600/clemson+paw+.jpg" id=logo />
+      </ul>
+    </nav>
+    {% endif %}
+    {% if request.user.profile.user_type == "Cook" %}
+    <nav class="navbar navbar-default">
+          <a class="navbar-brand" href="#">Food™ ⟼</a>
+          <a class="navbar-brand" href="#">{{ request.user }},</a>
+          <a class="navbar-brand" href="#">{{ request.user.profile.user_type }}</a>
+    <ul class="nav navbar-nav">
+      <li><a href="{% url 'order_list_view' %}" role="button">View Orders</a></li>
+      <li><a href="{% url 'menu_item_list_view' %}" role="button">View Menu Items</a></li>
+      <li><a href="{% url 'profile_update_view' %}" role="button">Profile</a></li>
+      <li><a href="{% url 'logout' %}?next=/" role="button">Logout</a></li>
+      <img src="http://3.bp.blogspot.com/-2zNc1kJJ670/UgNueN0tN0I/AAAAAAAANrs/jvZ1KFAVNmc/s1600/clemson+paw+.jpg" id="logo" />
+    </ul>
+   </nav>
+    {% endif %}
+    {% if request.user.profile.user_type == "Server" %}
+      <nav class="navbar navbar-default">
+            <a class="navbar-brand" href="#">Food™ ⟼</a>
+            <a class="navbar-brand" href="#">{{ request.user }}</a>
+            <a class="navbar-brand" href="#">{{ request.user.profile.user_type }}</a>
+      <ul class="nav navbar-nav">
+        <li><a href="{% url 'order_create_view' %}" role="button">Create Order |</a></li>
+        <li><a href="{% url 'order_list_view' %}" role="button">View Orders |</a></li>
+        <li><a href="{% url 'menu_item_list_view' %}" role="button">View Menu Items |</a></li>
+        <li><a href="{% url 'profile_update_view' %}" role="button">Profile |</a></li>
+        <li><a href="{% url 'logout' %}?next=/" role="button">Logout |</a></li>
+        <img src="http://3.bp.blogspot.com/-2zNc1kJJ670/UgNueN0tN0I/AAAAAAAANrs/jvZ1KFAVNmc/s1600/clemson+paw+.jpg" id="logo" />
+      </ul>
+    </nav>
+        <div class="container">
+        </div>
+    {% endif %}
+  {% endif %}
+  <div class="container">
+    {% block content %}
+      No content provided
+    {% endblock %}
+     </div>
+  </body>
+</html>

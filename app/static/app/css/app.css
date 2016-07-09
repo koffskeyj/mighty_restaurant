@@ -1,0 +1,39 @@
+.navbar {
+  min-height: 60px !important;
+  background-color: darkorange
+}
+
+ul li {
+  font-size: 28px;
+}
+
+.navbar-default .navbar-nav li a {
+  font-family: courier;
+  color: white;
+}
+
+.navbar-default .navbar-brand {
+  font-family: courier;
+  color: white;
+  font-size: 28px;
+}
+
+.navigation {
+  float: right;
+}
+
+img {
+  height: 60px;
+  width: 90px;
+}
+
+body {
+  background-color: indigo;
+  color: white;
+  font-family: courier;
+  font-size: 28px;
+}
+
+input {
+  background-color: darkorange;
+}
