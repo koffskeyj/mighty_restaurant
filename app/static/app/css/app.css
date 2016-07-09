@@ -31,9 +31,17 @@ body {
   background-color: indigo;
   color: white;
   font-family: courier;
-  font-size: 28px;
+  font-size: 20px;
 }
 
 input {
+  background-color: darkorange;
+}
+
+textarea {
+  background-color: darkorange;
+}
+
+select {
   background-color: darkorange;
 }

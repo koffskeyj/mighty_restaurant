@@ -8,6 +8,8 @@ SERVER = 'Server'
 OWNER = 'Owner'
 USER_CHOICES = ((COOK, 'Cook'), (SERVER, 'Server'), (OWNER, 'Owner'))
 
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User)
     user_type = models.CharField(max_length=30, choices=USER_CHOICES, null=True, blank=True)
@@ -23,9 +25,11 @@ class MenuItem(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User)
-    table_name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30)
     items = models.ManyToManyField('app.MenuItem', related_name="items")
-    order_details = models.TextField()
+    details = models.TextField()
+    order_Completed = models.BooleanField(default=False)
+    table_Paid = models.BooleanField(default=False)
 
 
 @receiver(post_save, sender="auth.User")
