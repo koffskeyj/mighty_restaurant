@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -41,17 +41,33 @@ class OrderCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 class OrderListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
+        if self.request.user.profile.user_type == "Server":
+            return Order.objects.filter(user=self.request.user)
         if self.request.user.profile.user_type == "Owner" or "Cook":
             return Order.objects.all()
-        else:
-            return Order.objects.filter(user=self.request.user)
 
 
-class OrderUpdateView(LoginRequiredMixin, ListView):
+class OrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Order
     fields = ["name", "items", "details"]
     success_url = reverse_lazy("order_list_view")
 
+    def test_func(self):
+        return self.request.user.profile.user_type == "Server"
+
+    def form_valid(self, form):
+        order = form.save(commit=False)
+        order.user = self.request.user
+        return super(OrderCreateView, self).form_valid(form)
+
+class OrderDetailView(LoginRequiredMixin, DetailView):
+    model = Order
+    template_name = "app/order_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["menu_item"] = MenuItem.objects.all()
+        return context
 
 class MenuItemCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = MenuItem
