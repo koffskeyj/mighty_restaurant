@@ -2,12 +2,15 @@ from django.db import models
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-
+from django.forms import ModelForm
 COOK = 'Cook'
 SERVER = 'Server'
 OWNER = 'Owner'
 USER_CHOICES = ((COOK, 'Cook'), (SERVER, 'Server'), (OWNER, 'Owner'))
 
+YES = 'YES'
+NO = 'NO'
+COMPLETED_CHOICES = ((YES, 'YES'), (NO, 'NO'))
 
 
 class Profile(models.Model):
@@ -28,8 +31,14 @@ class Order(models.Model):
     name = models.CharField(max_length=30)
     items = models.ManyToManyField('app.MenuItem', related_name="items")
     details = models.TextField()
-    order_Completed = models.BooleanField(default=False)
-    table_Paid = models.BooleanField(default=False)
+    order_Completed = models.CharField(max_length=30, choices=COMPLETED_CHOICES, default='NO')
+    table_Paid = models.CharField(max_length=30, choices=COMPLETED_CHOICES, default='NO')
+
+
+class CompleteForm(ModelForm):
+    class Meta:
+        model = Order
+        fields = ["order_Completed", "table_Paid"]
 
 
 @receiver(post_save, sender="auth.User")

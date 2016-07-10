@@ -5,4 +5,9 @@
       {{ items.item_name }},
     {% endfor %}
     {{ order.details }} <br> <br>
+    <form class="" action="{% url 'complete_form_view' %}" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" name="name" value="Update">
+    </form>
 {% endblock %}

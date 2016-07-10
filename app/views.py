@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView, ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.urlresolvers import reverse_lazy
 from app.models import Order, MenuItem
+from django.shortcuts import get_object_or_404
 
 class IndexView(TemplateView):
     template_name = "index.html"
@@ -52,13 +53,14 @@ class OrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     fields = ["name", "items", "details"]
     success_url = reverse_lazy("order_list_view")
 
+
     def test_func(self):
         return self.request.user.profile.user_type == "Server"
 
     def form_valid(self, form):
         order = form.save(commit=False)
         order.user = self.request.user
-        return super(OrderCreateView, self).form_valid(form)
+        return super(OrderUpdateView, self).form_valid(form)
 
 class OrderDetailView(LoginRequiredMixin, DetailView):
     model = Order
@@ -66,8 +68,26 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["menu_item"] = MenuItem.objects.all()
+        context["form"] = CompleteForm
         return context
+
+
+class CompleteFormView(LoginRequiredMixin, FormView):
+    # form_class = CompleteForm
+    success_url = "/accounts/profile/order_list"
+
+    # def get_form_kwargs(self):
+        # kwargs = super(CompleteFormView, self).get_form_kwargs()
+        # kwargs['order'] = get_object_or_404(Order, id=self.kwargs['id'])
+        # return kwargs
+
+    def form_valid(self, form):
+        order = form.save(commit=False)
+        order.user = self.request.user
+        return super(CompleteFormView, self).form_valid(form)
+
+
+
 
 class MenuItemCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = MenuItem

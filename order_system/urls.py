@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from app.views import  IndexView, UserCreateView, ProfileUpdateView, OrderCreateView, MenuItemCreateView, OrderListView, MenuItemListView, OrderUpdateView, OrderDetailView
+from app.views import  IndexView, UserCreateView, ProfileUpdateView, OrderCreateView, MenuItemCreateView, OrderListView, MenuItemListView, OrderUpdateView, OrderDetailView, CompleteFormView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.decorators.http import require_POST
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,6 +29,7 @@ urlpatterns = [
     url(r'^accounts/profile/order_create/$', OrderCreateView.as_view(), name="order_create_view"),
     url(r'^accounts/profile/order_update/(?P<pk>\d+)/$', OrderUpdateView.as_view(), name="order_update_view"),
     url(r'^accounts/profile/order_detail/(?P<pk>\d+)/$', OrderDetailView.as_view(), name="order_detail_view"),
+    url(r'^complete_form/$', require_POST(CompleteFormView.as_view()), name="complete_form_view"),
     url(r'^menu_item_create/$', MenuItemCreateView.as_view(), name="menu_item_create_view"),
     url(r'^accounts/profile/order_list/$', OrderListView.as_view(), name="order_list_view"),
     url(r'^menu_item_list/$', MenuItemListView.as_view(), name="menu_item_list_view")

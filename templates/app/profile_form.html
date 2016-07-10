@@ -8,8 +8,5 @@
       <input type="submit" name="name" value="Update">
     </form>
   {% endif %}
-  {{request.user.profile.user_type}}
-  {% for order in object_list %}
-    {{ order }}
-  {% endfor %}
+  Job : {{request.user.profile.user_type}}
   {% endblock %}
