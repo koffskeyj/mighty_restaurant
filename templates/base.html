@@ -10,10 +10,10 @@
   <body>
     {% if request.user.is_anonymous %}
     <nav class="navbar navbar-default">
-          <a class="navbar-brand" href="#">Food™</a>
+          <a class="navbar-brand" href="#">Clemson Burgers™ |</a>
     <ul class="nav navbar-nav">
-      <li><a href=" {% url 'user_create_view' %}" role="button">Create User</a> </li>
-      <li><a href="{% url 'login' %}" role="button">Login</a></li>
+      <li><a href=" {% url 'user_create_view' %}" role="button">Create User |</a></li>
+      <li><a href="{% url 'login' %}" role="button">Login |</a></li>
     </ul>
   </nav>
     {% endif %}
@@ -51,9 +51,9 @@
     {% endif %}
     {% if request.user.profile.user_type == "Server" %}
       <nav class="navbar navbar-default">
-            <a class="navbar-brand" href="#">Clemson Burgers™ ⟼</a>
-            <a class="navbar-brand" href="#">{{ request.user }}</a>
-            <a class="navbar-brand" href="#">{{ request.user.profile.user_type }}</a>
+            <a class="navbar-brand">Clemson Burgers™ ⟼</a>
+            <a class="navbar-brand">{{ request.user }}</a>
+            <a class="navbar-brand">{{ request.user.profile.user_type }}</a>
             <img src="http://3.bp.blogspot.com/-2zNc1kJJ670/UgNueN0tN0I/AAAAAAAANrs/jvZ1KFAVNmc/s1600/clemson+paw+.jpg" id="logo" />
       <ul class="nav navbar-nav">
         <li><a href="{% url 'profile_update_view' %}" role="button">Profile |</a></li>

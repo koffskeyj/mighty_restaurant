@@ -65,7 +65,7 @@ class OrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class OrderDetailView(LoginRequiredMixin, DetailView):
     model = Order
-    template_name = "app/order_detail.html"
+    # template_name = "app/order_detail.html"
 
     def get_context_data(self, **kwargs):
         order_id = self.kwargs.get('pk', None)

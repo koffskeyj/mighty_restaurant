@@ -65,20 +65,28 @@ a {
   width: 400px;
 }
 
-#id_table_Paid{
+#id_table_Paid {
   height: 150px;
-  width: 170px;
+  width: 175px;
   font-size: 70px;
 }
 
-#id_order_Completed{
+#id_order_Completed {
   height: 150px;
-  width: 170px;
+  width: 175px;
   font-size: 70px;
 }
 
-.cook_button{
+.cook_button {
   height: 150px;
   width: 400px;
   font-size: 70px;
+}
+
+.order_detail {
+  font-size: 50px;
+}
+
+.colon {
+  font-size: 50px;
 }
