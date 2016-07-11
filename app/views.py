@@ -68,8 +68,10 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
     template_name = "app/order_detail.html"
 
     def get_context_data(self, **kwargs):
+        order_id = self.kwargs.get('pk', None)
+        complete_order = Order.objects.get(id=order_id)
         context = super().get_context_data(**kwargs)
-        context["form"] = CompleteForm
+        context["form"] = CompleteForm(self.request.GET or None, instance=complete_order)
         return context
 
 
