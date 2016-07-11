@@ -77,20 +77,17 @@ class CompleteFormView(LoginRequiredMixin, FormView):
     form_class = CompleteForm
     success_url = "/accounts/profile/order_list"
 
-    # def get_form_kwargs(self):
-        # kwargs = super(CompleteFormView, self).get_form_kwargs()
-        # kwargs['order'] = get_object_or_404(Order, id=self.kwargs['id'])
-        # return kwargs
 
     def form_valid(self, form, **kwargs):
         order_id = self.kwargs.get('pk', None)
         complete_order = Order.objects.get(id=order_id)
         if Order.objects.get(id=order_id):
             form = CompleteForm(self.request.POST or None, instance=complete_order)
-            if form.is_valid:
+            if form.is_valid():
                 complete = form.save(commit=False)
                 complete.user = self.request.user
                 complete.save()
+
         return super(CompleteFormView, self).form_valid(form)
 
 

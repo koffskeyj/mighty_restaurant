@@ -4,13 +4,17 @@
     {% for items in order.items.all %}
       {{ items.item_name }},
     {% endfor %}
-    {{ order.details }} <br> <br>
+    <br>
+    >> {{ order.details }} <br> <br>
     <form class="" action="{% url 'complete_form_view' order.pk %}" method="post">
       {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit" name="name" value="Update">
+      Order Completed? {{ form.order_Completed }} <br> <br>
+      Table Paid? {{ form.table_Paid }}
+      <br> <br> <br>
+      <input class="cook_button" type="submit" name="name" value="Update">
       <br> <br>
-      Table Paid? {{ order.get_table_Paid_display }} <br>
-      Order Completed? {{ order.get_order_Completed_display }}
+      Order Completed? {{ order.get_order_Completed_display }} <br>
+      Table Paid? {{ order.get_table_Paid_display }}
+
     </form>
 {% endblock %}

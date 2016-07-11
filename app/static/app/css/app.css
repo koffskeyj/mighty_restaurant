@@ -64,3 +64,21 @@ a {
   height: 200px;
   width: 400px;
 }
+
+#id_table_Paid{
+  height: 150px;
+  width: 170px;
+  font-size: 70px;
+}
+
+#id_order_Completed{
+  height: 150px;
+  width: 170px;
+  font-size: 70px;
+}
+
+.cook_button{
+  height: 150px;
+  width: 400px;
+  font-size: 70px;
+}

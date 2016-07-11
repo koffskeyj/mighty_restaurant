@@ -40,11 +40,17 @@ class CompleteForm(ModelForm):
 
     #order_Completed = forms.ModelChoiceField(queryset=Order.objects.none())
     #table_Paid = forms.ModelChoiceField(queryset=Order.objects.none())
-
-
     class Meta:
         model = Order
         fields = ["order_Completed", "table_Paid"]
+
+    # def __init__(self, *args, **kwargs):
+        # super(CompleteForm, self).__init__(*args, **kwargs)
+        # order_instance = Order()
+        # users_order_completed = order_instance('order_Completed')
+        # users_table_Paid = order_instance('table_Paid')
+        # self.fields['order_Completed'] = ChoiceField(choices=[(users_order_completed, users_order_completed),])
+        # self.fields['table_Paid'] = ChoiceField(choices=[(users_table_Paid, users_table_Paid)],)
 
     def clean(self):
         cleaned_data=super(CompleteForm, self).clean()
