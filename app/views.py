@@ -5,8 +5,9 @@ from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.urlresolvers import reverse_lazy
-from app.models import Order, MenuItem
+from app.models import Order, MenuItem, CompleteForm
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
 
 class IndexView(TemplateView):
     template_name = "index.html"
@@ -73,7 +74,7 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
 
 
 class CompleteFormView(LoginRequiredMixin, FormView):
-    # form_class = CompleteForm
+    form_class = CompleteForm
     success_url = "/accounts/profile/order_list"
 
     # def get_form_kwargs(self):
@@ -81,12 +82,16 @@ class CompleteFormView(LoginRequiredMixin, FormView):
         # kwargs['order'] = get_object_or_404(Order, id=self.kwargs['id'])
         # return kwargs
 
-    def form_valid(self, form):
-        order = form.save(commit=False)
-        order.user = self.request.user
+    def form_valid(self, form, **kwargs):
+        order_id = self.kwargs.get('pk', None)
+        complete_order = Order.objects.get(id=order_id)
+        if Order.objects.get(id=order_id):
+            form = CompleteForm(self.request.POST or None, instance=complete_order)
+            if form.is_valid:
+                complete = form.save(commit=False)
+                complete.user = self.request.user
+                complete.save()
         return super(CompleteFormView, self).form_valid(form)
-
-
 
 
 class MenuItemCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):

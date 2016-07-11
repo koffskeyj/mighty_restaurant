@@ -4,7 +4,6 @@ from django.contrib.auth.forms import UserCreationForm
 from app.models import MenuItem, Order
 
 
-
 # class MenuItemCssForm(ModelForm):
     # class Meta:
         # model = MenuItem

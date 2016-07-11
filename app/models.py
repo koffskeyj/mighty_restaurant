@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.forms import ModelForm
+from django import forms
 COOK = 'Cook'
 SERVER = 'Server'
 OWNER = 'Owner'
@@ -36,9 +37,20 @@ class Order(models.Model):
 
 
 class CompleteForm(ModelForm):
+
+    #order_Completed = forms.ModelChoiceField(queryset=Order.objects.none())
+    #table_Paid = forms.ModelChoiceField(queryset=Order.objects.none())
+
+
     class Meta:
         model = Order
         fields = ["order_Completed", "table_Paid"]
+
+    def clean(self):
+        cleaned_data=super(CompleteForm, self).clean()
+        order_Completed = cleaned_data.get('order_Completed')
+        table_Completed = cleaned_data.get('table_Paid')
+        return cleaned_data
 
 
 @receiver(post_save, sender="auth.User")
