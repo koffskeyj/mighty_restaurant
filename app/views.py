@@ -35,11 +35,6 @@ class OrderCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     def test_func(self):
         return self.request.user.profile.user_type == "Server"
 
-    def form_valid(self, form):
-        order = form.save(commit=False)
-        order.user = self.request.user
-        return super(OrderCreateView, self).form_valid(form)
-
 
 class OrderListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
